@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
   --color-bg: #05060a;
@@ -60,6 +60,29 @@ main {
   padding: 3rem;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(125, 211, 252, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.hp-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(125, 211, 252, 0.12), transparent 55%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.hp-section:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 35px 60px rgba(2, 6, 23, 0.7);
+  border-color: rgba(125, 211, 252, 0.2);
+}
+
+.hp-section:hover::before {
+  opacity: 1;
 }
 
 .hp-section__content {
@@ -93,6 +116,13 @@ main {
   padding: 0.85rem 1.2rem;
   border-radius: var(--radius-medium);
   border: 1px solid rgba(125, 211, 252, 0.08);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hp-list li:hover {
+  border-color: rgba(244, 114, 182, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(244, 114, 182, 0.15);
 }
 
 @media (max-width: 768px) {

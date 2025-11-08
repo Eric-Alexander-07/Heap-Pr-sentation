@@ -10,6 +10,7 @@ import HeapsortVisualizer from './components/HeapsortVisualizer';
 import SortController from './components/SortController';
 import RuntimeAnalysis from './components/RuntimeAnalysis';
 import UseCases from './components/UseCases';
+import HeapsortCode from './components/HeapsortCode';
 
 const generateRandomArray = (size) =>
   Array.from({ length: size }, () => Math.floor(Math.random() * 90) + 10);
@@ -78,6 +79,7 @@ const App = () => {
         </section>
         <RuntimeAnalysis />
         <UseCases />
+        <HeapsortCode />
       </main>
     </>
   );

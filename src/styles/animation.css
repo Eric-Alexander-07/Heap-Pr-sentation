@@ -45,3 +45,21 @@
     transform: scale(1);
   }
 }
+
+@keyframes hp-light-sweep {
+  0% {
+    transform: translateX(-20%) translateY(-20%);
+  }
+  100% {
+    transform: translateX(120%) translateY(20%);
+  }
+}
+
+@keyframes hp-shimmer {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(50%);
+  }
+}
