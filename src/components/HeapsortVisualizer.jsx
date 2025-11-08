@@ -176,19 +176,6 @@ const HeapsortVisualizer = ({
     }
   }, [advanceStep, controlSignal, inputArray, onStatusChange]);
 
-  useEffect(() => {
-    if (playState !== 'playing') return undefined;
-
-    const timeout = setTimeout(() => {
-      const finished = advanceStep();
-      if (finished) {
-        clearTimeout(timeout);
-      }
-    }, slowMode ? 900 : 420);
-
-    return () => clearTimeout(timeout);
-  }, [advanceStep, playState, slowMode, stepIndex]);
-
   const maxValue = useMemo(
     () => (bars.length ? Math.max(...bars) : 1),
     [bars],
@@ -198,6 +185,27 @@ const HeapsortVisualizer = ({
     if (highlighted.swap.length) return highlighted.swap;
     return highlighted.compare;
   }, [highlighted]);
+
+  const stepDelay = useMemo(() => {
+    if (slowMode) return 850;
+    if (bars.length >= 22) return 60;
+    if (bars.length >= 16) return 140;
+    if (bars.length >= 10) return 200;
+    return 320;
+  }, [bars.length, slowMode]);
+
+  useEffect(() => {
+    if (playState !== 'playing') return undefined;
+
+    const timeout = setTimeout(() => {
+      const finished = advanceStep();
+      if (finished) {
+        clearTimeout(timeout);
+      }
+    }, stepDelay);
+
+    return () => clearTimeout(timeout);
+  }, [advanceStep, playState, stepDelay, stepIndex]);
 
   return (
     <div className="hp-visualizer">

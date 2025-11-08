@@ -11,6 +11,8 @@
   --color-accent-3: #1e293b;
   --color-text: #f5f7ff;
   --color-muted: #9fb0cb;
+  --color-tree-node: #0f1e33;
+  --color-tree-active: #22d3ee;
   --radius-large: 24px;
   --radius-medium: 14px;
   --shadow-soft: 0 25px 45px rgba(2, 6, 23, 0.55);

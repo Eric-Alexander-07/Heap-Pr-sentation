@@ -16,9 +16,11 @@ const Header = () => {
   const items = useMemo(() => sections, []);
 
   return (
-    <header className="hp-header">
+    <header className="hp-header" id="top">
       <div className="hp-header__inner">
-        <h1>Heap-Präsentation</h1>
+        <h1>
+          <a href="#">Heap-Präsentation</a>
+        </h1>
         <nav aria-label="Hauptnavigation">
           <ul>
             {items.map((section) => (
