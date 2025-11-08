@@ -275,16 +275,16 @@
 
 .hp-bar {
   flex: 1;
-  background: #38bdf8;
+  background: #4f8df5;
   border-radius: var(--radius-medium) var(--radius-medium) 6px 6px;
   position: relative;
   transition: height 0.3s ease, background 0.2s, transform 0.2s;
-  box-shadow: 0 8px 18px rgba(56, 189, 248, 0.25);
+  box-shadow: 0 4px 12px rgba(79, 141, 245, 0.18);
 }
 
 .hp-bar:hover {
-  transform: translateY(-6px) scale(1.02);
-  box-shadow: 0 12px 24px rgba(56, 189, 248, 0.35);
+  transform: translateY(-2px) scale(1.005);
+  box-shadow: 0 8px 18px rgba(79, 141, 245, 0.35);
 }
 
 .hp-bar span {
@@ -294,15 +294,15 @@
   transform: translateX(-50%);
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--color-muted);
+  color: var(--color-text);
 }
 
 .hp-bar.is-compare {
-  background: #facc15;
+  background: #f5c542;
 }
 
 .hp-bar.is-swap {
-  background: #f472b6;
+  background: var(--color-accent);
 }
 
 .hp-visualizer__tree {
@@ -328,20 +328,24 @@
 }
 
 .hp-heap-tree__edge {
-  stroke: rgba(125, 211, 252, 0.45);
+  stroke: rgba(255, 255, 255, 0.18);
   stroke-width: 2;
 }
 
 .hp-heap-tree__node {
   fill: var(--color-tree-node);
-  stroke: rgba(125, 211, 252, 0.4);
+  stroke: rgba(255, 255, 255, 0.22);
   stroke-width: 2px;
 }
 
-.hp-heap-tree__node.is-active {
+.hp-heap-tree__node.is-compare {
+  fill: #a0882a;
+  stroke: rgba(245, 197, 66, 0.65);
+}
+
+.hp-heap-tree__node.is-swap {
   fill: var(--color-tree-active);
-  stroke: rgba(103, 232, 249, 0.8);
-  filter: drop-shadow(0 0 12px rgba(34, 211, 238, 0.55));
+  stroke: rgba(255, 255, 255, 0.6);
 }
 
 .hp-heap-tree__label {

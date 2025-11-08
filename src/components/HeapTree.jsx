@@ -13,6 +13,16 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
     );
   }
 
+  const highlights = useMemo(() => {
+    if (Array.isArray(highlightedNodes)) {
+      return { compare: highlightedNodes, swap: [] };
+    }
+    return {
+      compare: highlightedNodes?.compare ?? [],
+      swap: highlightedNodes?.swap ?? [],
+    };
+  }, [highlightedNodes]);
+
   const { nodes, edges, width, height } = useMemo(() => {
     const computedLevels = [];
     let pointer = 0;
@@ -39,7 +49,6 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
         value,
         x,
         y,
-        isHighlighted: highlightedNodes.includes(index),
       };
     });
 
@@ -66,7 +75,7 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
       width: svgWidth,
       height: svgHeight,
     };
-  }, [highlightedNodes, values]);
+  }, [values]);
 
   return (
     <div className="hp-heap-tree" role="img" aria-label="Heap-Baum mit Linien">
@@ -85,19 +94,22 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
             className="hp-heap-tree__edge"
           />
         ))}
-        {nodes.map((node) => (
-          <g key={`node-${node.index}`}>
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r="22"
-              className={`hp-heap-tree__node ${node.isHighlighted ? 'is-active' : ''}`}
-            />
-            <text x={node.x} y={node.y + 4} className="hp-heap-tree__label">
-              {node.value}
-            </text>
-          </g>
-        ))}
+        {nodes.map((node) => {
+          const isSwap = highlights.swap.includes(node.index);
+          const isCompare = highlights.compare.includes(node.index);
+          const nodeClass = `hp-heap-tree__node ${
+            isSwap ? 'is-swap' : isCompare ? 'is-compare' : ''
+          }`;
+
+          return (
+            <g key={`node-${node.index}`}>
+              <circle cx={node.x} cy={node.y} r="22" className={nodeClass} />
+              <text x={node.x} y={node.y + 4} className="hp-heap-tree__label">
+                {node.value}
+              </text>
+            </g>
+          );
+        })}
       </svg>
     </div>
   );

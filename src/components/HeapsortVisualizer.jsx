@@ -181,16 +181,11 @@ const HeapsortVisualizer = ({
     [bars],
   );
 
-  const highlightedNodes = useMemo(() => {
-    if (highlighted.swap.length) return highlighted.swap;
-    return highlighted.compare;
-  }, [highlighted]);
-
   const stepDelay = useMemo(() => {
     if (slowMode) return 850;
-    if (bars.length >= 22) return 60;
-    if (bars.length >= 16) return 140;
-    if (bars.length >= 10) return 200;
+    if (bars.length >= 22) return 80;
+    if (bars.length >= 16) return 150;
+    if (bars.length >= 10) return 220;
     return 320;
   }, [bars.length, slowMode]);
 
@@ -237,7 +232,7 @@ const HeapsortVisualizer = ({
       </div>
       <div className="hp-visualizer__tree">
         <h3>Heap als Baum</h3>
-        <HeapTree values={bars} highlightedNodes={highlightedNodes} />
+        <HeapTree values={bars} highlightedNodes={highlighted} />
       </div>
     </div>
   );
