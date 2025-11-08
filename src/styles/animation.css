@@ -1,0 +1,47 @@
+/* Zusätzliche Animationen für Hover- und Sortierzustände */
+.hp-bar {
+  animation: hp-fade-in 0.4s ease;
+}
+
+.hp-bar.is-compare {
+  animation: hp-pulse-compare 0.6s ease;
+}
+
+.hp-bar.is-swap {
+  animation: hp-pulse-swap 0.6s ease;
+}
+
+@keyframes hp-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes hp-pulse-compare {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hp-pulse-swap {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
