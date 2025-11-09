@@ -1,11 +1,11 @@
-/**
+﻿/**
  * HeapsortVisualizer.jsx
  * Interaktive Visualisierung des Heapsort-Prozesses inklusive Animationen.
  *
- * Die Komponente reagiert auf Steuerbefehle vom SortController. Über ein
+ * Die Komponente reagiert auf Steuerbefehle vom SortController. Ãœber ein
  * einfaches Command-Pattern (controlSignal) werden Start/Pause/Step/Reset
- * ausgelöst. Die eigentliche Heapsort-Logik wird in einzelne "Steps"
- * übersetzt, die nacheinander animiert werden.
+ * ausgelÃ¶st. Die eigentliche Heapsort-Logik wird in einzelne "Steps"
+ * Ã¼bersetzt, die nacheinander animiert werden.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import HeapTree from './HeapTree';
@@ -21,6 +21,12 @@ const buildHeapsortSteps = (input) => {
 
   const recordSwap = (a, b) => {
     steps.push({ type: 'swap', indices: [a, b] });
+  };
+
+  const recordSorted = (indices) => {
+    const payload = Array.isArray(indices) ? indices : [indices];
+    if (!payload.length) return;
+    steps.push({ type: 'sorted', indices: payload });
   };
 
   const heapify = (size, root) => {
@@ -61,9 +67,13 @@ const buildHeapsortSteps = (input) => {
       type: 'info',
       message: `Maximum an Position ${end} fixiert`,
     });
+    recordSorted(end);
     heapify(end, 0);
   }
-  steps.push({ type: 'info', message: 'Array sortiert ✅' });
+  if (arr.length) {
+    recordSorted(0);
+  }
+  steps.push({ type: 'info', message: 'Array sortiert.' });
 
   return steps;
 };
@@ -77,15 +87,16 @@ const HeapsortVisualizer = ({
   const [bars, setBars] = useState(inputArray);
   const [steps, setSteps] = useState([]);
   const [stepIndex, setStepIndex] = useState(0);
-  const [statusMessage, setStatusMessage] = useState('Bereit für Heapsort ✨');
+  const [statusMessage, setStatusMessage] = useState('Bereit fÃ¼r Heapsort âœ¨');
   const [playState, setPlayState] = useState('idle'); // idle | playing | paused | done
   const [highlighted, setHighlighted] = useState({ compare: [], swap: [] });
+  const [sortedIndices, setSortedIndices] = useState([]);
 
   const stepsRef = useRef([]);
   const stepIndexRef = useRef(0);
   const controlIdRef = useRef(null);
 
-  // Wenn sich das Eingabe-Array ändert, setzen wir alles zurück und bereiten neue Steps vor.
+  // Wenn sich das Eingabe-Array Ã¤ndert, setzen wir alles zurÃ¼ck und bereiten neue Steps vor.
   useEffect(() => {
     setBars(inputArray);
     const generated = buildHeapsortSteps(inputArray);
@@ -94,8 +105,9 @@ const HeapsortVisualizer = ({
     setStepIndex(0);
     stepIndexRef.current = 0;
     setHighlighted({ compare: [], swap: [] });
+    setSortedIndices([]);
     setPlayState('idle');
-    setStatusMessage('Bereit für Heapsort ✨');
+    setStatusMessage('Bereit für Heapsort âœ¨');
     onStatusChange('Bereit');
   }, [inputArray, onStatusChange]);
 
@@ -120,7 +132,7 @@ const HeapsortVisualizer = ({
     if (step.type === 'compare') {
       setHighlighted({ compare: step.indices, swap: [] });
       setStatusMessage(
-        `Vergleich: Index ${step.indices[0]} ↔ ${step.indices[1]}`,
+        `Vergleich: Index ${step.indices[0]} â†” ${step.indices[1]}`,
       );
     } else if (step.type === 'swap') {
       setHighlighted({ compare: [], swap: step.indices });
@@ -131,8 +143,22 @@ const HeapsortVisualizer = ({
         return next;
       });
       setStatusMessage(
-        `Tausch: Position ${step.indices[0]} ↔ ${step.indices[1]}`,
+        `Tausch: Position ${step.indices[0]} â†” ${step.indices[1]}`,
       );
+    } else if (step.type === 'sorted') {
+      setHighlighted({ compare: [], swap: [] });
+      setSortedIndices((prev) => {
+        const next = new Set(prev);
+        step.indices.forEach((idx) => next.add(idx));
+        return Array.from(next);
+      });
+      if (step.indices.length === 1) {
+        setStatusMessage(`Position ${step.indices[0]} fertig sortiert.`);
+      } else {
+        setStatusMessage(
+          `Positionen ${step.indices.join(', ')} fertig sortiert.`,
+        );
+      }
     } else if (step.type === 'info') {
       setHighlighted({ compare: [], swap: [] });
       setStatusMessage(step.message);
@@ -150,7 +176,7 @@ const HeapsortVisualizer = ({
     switch (controlSignal.type) {
       case 'start':
         setPlayState('playing');
-        setStatusMessage('Animation läuft …');
+        setStatusMessage('Animation läuft â€¦');
         onStatusChange('Läuft');
         break;
       case 'pause':
@@ -167,6 +193,7 @@ const HeapsortVisualizer = ({
         setStepIndex(0);
         stepIndexRef.current = 0;
         setHighlighted({ compare: [], swap: [] });
+        setSortedIndices([]);
         setPlayState('idle');
         setStatusMessage('Zurückgesetzt');
         onStatusChange('Bereit');
@@ -216,13 +243,19 @@ const HeapsortVisualizer = ({
           const barHeight = (value / maxValue) * 100 || 5;
           const isCompare = highlighted.compare.includes(index);
           const isSwap = highlighted.swap.includes(index);
+          const isSorted = sortedIndices.includes(index);
+          const barClasses = ['hp-bar'];
+          if (isSorted) {
+            barClasses.push('is-sorted');
+          } else {
+            if (isCompare) barClasses.push('is-compare');
+            if (isSwap) barClasses.push('is-swap');
+          }
 
           return (
             <div
               key={`${value}-${index}`}
-              className={`hp-bar ${isCompare ? 'is-compare' : ''} ${
-                isSwap ? 'is-swap' : ''
-              }`}
+              className={barClasses.join(' ')}
               style={{ height: `${Math.max(barHeight, 8)}%` }}
             >
               <span>{value}</span>
@@ -232,10 +265,16 @@ const HeapsortVisualizer = ({
       </div>
       <div className="hp-visualizer__tree">
         <h3>Heap als Baum</h3>
-        <HeapTree values={bars} highlightedNodes={highlighted} />
+        <HeapTree
+          values={bars}
+          highlightedNodes={{ ...highlighted, sorted: sortedIndices }}
+        />
       </div>
     </div>
   );
 };
 
 export default HeapsortVisualizer;
+
+
+

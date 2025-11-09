@@ -15,11 +15,12 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
 
   const highlights = useMemo(() => {
     if (Array.isArray(highlightedNodes)) {
-      return { compare: highlightedNodes, swap: [] };
+      return { compare: highlightedNodes, swap: [], sorted: [] };
     }
     return {
       compare: highlightedNodes?.compare ?? [],
       swap: highlightedNodes?.swap ?? [],
+      sorted: highlightedNodes?.sorted ?? [],
     };
   }, [highlightedNodes]);
 
@@ -97,14 +98,19 @@ const HeapTree = ({ values = [], highlightedNodes = [] }) => {
         {nodes.map((node) => {
           const isSwap = highlights.swap.includes(node.index);
           const isCompare = highlights.compare.includes(node.index);
+          const isSorted = highlights.sorted.includes(node.index);
           const nodeClass = `hp-heap-tree__node ${
-            isSwap ? 'is-swap' : isCompare ? 'is-compare' : ''
+            isSorted ? 'is-sorted' : isSwap ? 'is-swap' : isCompare ? 'is-compare' : ''
           }`;
 
           return (
             <g key={`node-${node.index}`}>
               <circle cx={node.x} cy={node.y} r="22" className={nodeClass} />
-              <text x={node.x} y={node.y + 4} className="hp-heap-tree__label">
+              <text
+                x={node.x}
+                y={node.y + 4}
+                className={`hp-heap-tree__label${isSorted ? ' is-sorted' : ''}`}
+              >
                 {node.value}
               </text>
             </g>
