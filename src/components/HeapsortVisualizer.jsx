@@ -91,6 +91,28 @@ const HeapsortVisualizer = ({
   const [playState, setPlayState] = useState('idle'); // idle | playing | paused | done
   const [highlighted, setHighlighted] = useState({ compare: [], swap: [] });
   const [sortedIndices, setSortedIndices] = useState([]);
+  const barCount = bars.length || 1;
+  const barGap = useMemo(() => {
+    if (barCount > 34) return '0.25rem';
+    if (barCount > 26) return '0.35rem';
+    return '0.5rem';
+  }, [barCount]);
+  const barLabelSize = useMemo(() => {
+    if (barCount > 34) return '0.6rem';
+    if (barCount > 26) return '0.7rem';
+    return '0.85rem';
+  }, [barCount]);
+  const barMinWidth = useMemo(() => {
+    if (barCount > 34) return '8px';
+    if (barCount > 26) return '12px';
+    return '16px';
+  }, [barCount]);
+  const barMaxWidth = useMemo(() => {
+    if (barCount <= 8) return '90px';
+    if (barCount <= 12) return '72px';
+    if (barCount <= 18) return '60px';
+    return '46px';
+  }, [barCount]);
 
   const stepsRef = useRef([]);
   const stepIndexRef = useRef(0);
@@ -238,7 +260,17 @@ const HeapsortVisualizer = ({
         </div>
         <span className={`hp-pill hp-pill--${playState}`}>{playState}</span>
       </div>
-      <div className="hp-visualizer__bars" aria-live="polite">
+      <div
+        className="hp-visualizer__bars"
+        aria-live="polite"
+        style={{
+          '--hp-bar-count': `${barCount}`,
+          '--hp-bar-gap': barGap,
+          '--hp-bar-label-size': barLabelSize,
+          '--hp-bar-min-width': barMinWidth,
+          '--hp-bar-max-width': barMaxWidth,
+        }}
+      >
         {bars.map((value, index) => {
           const barHeight = (value / maxValue) * 100 || 5;
           const isCompare = highlighted.compare.includes(index);

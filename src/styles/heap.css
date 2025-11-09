@@ -269,8 +269,13 @@
 }
 
 .hp-visualizer__bars {
+  --hp-bar-gap: clamp(0.35rem, 1.2vw, 0.65rem);
+  --hp-bar-count: 1;
+  --hp-bar-label-size: 0.85rem;
+  --hp-bar-min-width: 14px;
+  --hp-bar-max-width: 46px;
   display: flex;
-  gap: clamp(0.35rem, 1.2vw, 0.65rem);
+  gap: var(--hp-bar-gap);
   align-items: flex-end;
   min-height: 200px;
   height: clamp(200px, 38vw, 320px);
@@ -281,6 +286,8 @@
   border-radius: var(--radius-medium);
   border: 1px solid rgba(125, 211, 252, 0.08);
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
   overflow-x: auto;
   overflow-y: visible;
   scrollbar-width: thin;
@@ -288,8 +295,17 @@
 }
 
 .hp-bar {
-  flex: 1 1 clamp(16px, 3.8vw, 42px);
-  min-width: clamp(16px, 4vw, 32px);
+  flex: 0 0
+    clamp(
+      var(--hp-bar-min-width, 14px),
+      calc(
+        (100% - ((var(--hp-bar-count, 1) - 1) * var(--hp-bar-gap))) /
+          var(--hp-bar-count, 1)
+      ),
+      var(--hp-bar-max-width, 46px)
+    );
+  min-width: var(--hp-bar-min-width, 14px);
+  max-width: var(--hp-bar-max-width, 46px);
   background: #4f8df5;
   border-radius: var(--radius-medium) var(--radius-medium) 6px 6px;
   position: relative;
@@ -307,7 +323,7 @@
   bottom: -2rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 0.85rem;
+  font-size: var(--hp-bar-label-size, 0.85rem);
   font-weight: 600;
   color: var(--color-text);
 }
