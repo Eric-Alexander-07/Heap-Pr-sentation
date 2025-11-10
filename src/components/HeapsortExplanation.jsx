@@ -12,7 +12,7 @@ const steps = [
   {
     title: 'Heapify',
     description:
-      'Nach jedem Entfernen des Maximums wird der Heap wiederhergestellt: Der neue Wurzelknoten “sinkt” nach unten, bis die Heap-Eigenschaft erfüllt ist.',
+      'Nach jedem Entfernen des Maximums (Tausch mit letztem Element) wird der Heap neu aufgebaut, da die Heap-Eigenschaft an der Wurzel verletzt sein kann.',
     marker: '02',
   },
   {

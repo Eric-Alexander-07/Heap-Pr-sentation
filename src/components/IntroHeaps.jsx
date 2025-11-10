@@ -12,15 +12,15 @@ const IntroHeaps = () => {
       <div className="hp-section__content">
         <h2>Was ist ein Heap?</h2>
         <p>
-          Ein Heap ist eine spezielle Form eines vollständigen binären Baums. Er
-          folgt einer einfachen Regel, der sogenannten <strong>Heap-Eigenschaft</strong>:
+          Ein Heap ist eine spezielle Datenstruktur in Form eines vollständigen binären Baums, bei
+          dem eine bestimmte Ordnung zwischen <em>Eltern-</em> und <em>Kindknoten</em> herrscht.
           Jeder Elternknoten ist bei einem <em>Max-Heap</em> größer oder gleich
           seinen Kindern – und bei einem <em>Min-Heap</em> kleiner oder gleich.
         </p>
         <ul className="hp-list">
           <li>Struktur: vollständiger Baum, aber gespeichert als kompaktes Array.</li>
           <li>Vergleiche finden immer nur zwischen Eltern- und Kindknoten statt.</li>
-          <li>Ideal geeignet für Prioritätswarteschlangen oder Scheduling-Aufgaben.</li>
+          <li>Ideal geeignet für Prioritätswarteschlangen.</li>
         </ul>
       </div>
       <div className="hp-intro__visuals">

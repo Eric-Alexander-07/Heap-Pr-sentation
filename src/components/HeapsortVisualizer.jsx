@@ -87,7 +87,7 @@ const HeapsortVisualizer = ({
   const [bars, setBars] = useState(inputArray);
   const [steps, setSteps] = useState([]);
   const [stepIndex, setStepIndex] = useState(0);
-  const [statusMessage, setStatusMessage] = useState('Bereit fÃ¼r Heapsort âœ¨');
+  const [statusMessage, setStatusMessage] = useState('Bereit für Heapsort');
   const [playState, setPlayState] = useState('idle'); // idle | playing | paused | done
   const [highlighted, setHighlighted] = useState({ compare: [], swap: [] });
   const [sortedIndices, setSortedIndices] = useState([]);
@@ -129,7 +129,7 @@ const HeapsortVisualizer = ({
     setHighlighted({ compare: [], swap: [] });
     setSortedIndices([]);
     setPlayState('idle');
-    setStatusMessage('Bereit für Heapsort âœ¨');
+    setStatusMessage('Bereit für Heapsort');
     onStatusChange('Bereit');
   }, [inputArray, onStatusChange]);
 
@@ -154,7 +154,7 @@ const HeapsortVisualizer = ({
     if (step.type === 'compare') {
       setHighlighted({ compare: step.indices, swap: [] });
       setStatusMessage(
-        `Vergleich: Index ${step.indices[0]} â†” ${step.indices[1]}`,
+        `Vergleich: Index ${step.indices[0]} at ${step.indices[1]}`,
       );
     } else if (step.type === 'swap') {
       setHighlighted({ compare: [], swap: step.indices });
@@ -165,7 +165,7 @@ const HeapsortVisualizer = ({
         return next;
       });
       setStatusMessage(
-        `Tausch: Position ${step.indices[0]} â†” ${step.indices[1]}`,
+        `Tausch: Position ${step.indices[0]} at ${step.indices[1]}`,
       );
     } else if (step.type === 'sorted') {
       setHighlighted({ compare: [], swap: [] });
@@ -198,7 +198,7 @@ const HeapsortVisualizer = ({
     switch (controlSignal.type) {
       case 'start':
         setPlayState('playing');
-        setStatusMessage('Animation läuft â€¦');
+        setStatusMessage('Animation läuft');
         onStatusChange('Läuft');
         break;
       case 'pause':

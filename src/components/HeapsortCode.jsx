@@ -49,8 +49,8 @@ const HeapsortCode = () => {
         <h2>Code-Snippet: Heapsort in Java</h2>
         <p>
           Die Java-Version spiegelt die gleiche Logik wie die Visualisierung wider. Besonders wichtig
-          ist, dass <code>heapify</code> rekursiv dafuer sorgt, dass die Heap-Eigenschaft nach jedem
-          Tausch erhalten bleibt und <code>sort</code> den Heap Schritt fuer Schritt abbaut.
+          ist, dass <code>heapify</code> rekursiv dafür sorgt, dass die Heap-Eigenschaft nach jedem
+          Tausch erhalten bleibt und <code>sort</code> den Heap Schritt für Schritt abbaut.
         </p>
       </div>
       <div className="hp-code__panel">
